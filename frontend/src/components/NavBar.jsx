@@ -24,6 +24,8 @@ function NavBar() {
                         <Nav.Link href="/admin">Admin Dashboard</Nav.Link>
                     ) : role === "seller" ? (
                         <Nav.Link href="/seller">Seller Dashboard</Nav.Link>
+                    ) : role === "buyer" ? (
+                        <Nav.Link href="/buyer">Buyer Page</Nav.Link>
                     ) : (
                         <Nav.Link href="/"></Nav.Link>)
                     }

@@ -17,13 +17,13 @@ function LoginPage() {
         // const res = await axios.post("http://localhost:8082/user/login", {
         //     username, password
         // });
-
+        //
         // const token = await res.data;
 
         const token = {
             msg: "success",
             code: 200,
-            data: "Seller_seller_1500.00"
+            data: "Buyer_buyer_1500",
         }
         //if login is successful
         if (token.data) {
@@ -47,7 +47,7 @@ function LoginPage() {
             }
 
             //display login success
-            alert(token.msg);
+            alert("Login Successful");
 
         } else {
             //display error
@@ -63,8 +63,8 @@ function LoginPage() {
     const validateUsername = (username) => {
         if (!username){
             return "Username is required";
-        } else if(username.length < 4 && username.length > 10){
-            return "Username must be >= 4"
+        } else if(username.length < 4){
+            return "Username length must be >= 4"
         }
     }
     const validatePassword = (password) => {

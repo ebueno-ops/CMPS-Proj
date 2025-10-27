@@ -45,7 +45,7 @@ function PriceList({name, price, promotion, qualified}) {
     //save edit
     const handleUpdate = async () => {
         try {
-            const res = await axios.put(
+            const res = await axios.post(
                 `http://localhost:8082/item/update`,
                 payload,
             )
