@@ -14,17 +14,17 @@ function LoginPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // const res = await axios.post("http://localhost:8082/user/login", {
-        //     username, password
-        // });
-        //
-        // const token = await res.data;
+        const res = await axios.post("http://localhost:8082/user/login", {
+            username, password
+        });
 
-        const token = {
-            msg: "success",
-            code: 200,
-            data: "Buyer_buyer_1500",
-        }
+        const token = await res.data;
+
+        // const token = {
+        //     msg: "success",
+        //     code: 200,
+        //     data: "Buyer_buyer_1500",
+        // }
         //if login is successful
         if (token.data) {
 

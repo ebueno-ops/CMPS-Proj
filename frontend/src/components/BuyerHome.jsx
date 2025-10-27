@@ -5,11 +5,8 @@ import axios from "axios";
 
 function BuyerHome() {
     const [cartItems, setCartItems] = useState([]);
-
     const [memberShipStatus, setMemberShipStatus] = useState("No");
-
-
-
+    const balance = localStorage.get("balance");
     const handleCount = (itemName, operator ) => {
         setCartItems(items => items.map(item=>{
             if (item.name === itemName){
@@ -39,16 +36,15 @@ function BuyerHome() {
         e.preventDefault();
 
         try {
-            // const res = await axios.post("http://localhost:8082/item/total", {
-            //     cartItems
-            // });
-            //
-            // const data = await res.data;
-            // let total = data.total;
+            const res = await axios.post("http://localhost:8082/item/total", {
+                cartItems
+            });
 
-            const data = handleTotal();
+            const data = await res.data;
 
-            if(data){
+            const total = handleTotal();
+
+            if(total){
                 alert(`Total is: ${data}`)
             }else {
                 alert("Error");
@@ -82,30 +78,29 @@ function BuyerHome() {
     useEffect(() => {
         const fetch = async () => {
             try{
-                // const res = await axios.get("http://localhost:8082/item/priceList");
-                // setItems(res.data);
-                const price_list = [
-                    {
-                        name: "A",
-                        price: 10.00,
-                        promotion:0,
-                        qualified:1,
-                    },
-                    {
-                        name: "B",
-                        price: 8.00,
-                        promotion:0,
-                        qualified:1,
-                    },
-                    {
-                        name: "C",
-                        price: 22,
-                        promotion:1,
-                        qualified:1,
-                    },
-                ]
+                const res = await axios.get("http://localhost:8082/item/priceList");
+                // const price_list = [
+                //     {
+                //         name: "A",
+                //         price: 10.00,
+                //         promotion:0,
+                //         qualified:1,
+                //     },
+                //     {
+                //         name: "B",
+                //         price: 8.00,
+                //         promotion:0,
+                //         qualified:1,
+                //     },
+                //     {
+                //         name: "C",
+                //         price: 22,
+                //         promotion:1,
+                //         qualified:1,
+                //     },
+                // ]
 
-                const addItemCount = price_list.map(item =>({
+                const addItemCount = res.data.map(item =>({
                     ...item,
                     count:1
                 }));
@@ -122,6 +117,7 @@ function BuyerHome() {
     return (
         <Container >
             <h3>Buyer</h3>
+            <p>{balance}</p>
             <Row className="justify-content-center">
                 {cartItems.filter(item => item.qualified === 1)
                     .map(item=>(

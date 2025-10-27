@@ -12,29 +12,30 @@ function AdminHome() {
     useEffect(() => {
         const fetch = async () => {
             try{
-                // const res = await axios.get("http://localhost:8082/item/priceList");
-                const price_list = [
-                    {
-                        name: "A",
-                        price: 0,
-                        promotion:0,
-                        qualified:0,
-                    },
-                    {
-                        name: "B",
-                        price: 2,
-                        promotion:0,
-                        qualified:0,
-                    },
-                    {
-                        name: "C",
-                        price: 22,
-                        promotion:1,
-                        qualified:0,
-                    },
-                ]
-                setItems(price_list)
-                // setItems(res.data);
+                const res = await axios.get("http://localhost:8082/item/priceList");
+                const data = await res.data;
+                // const price_list = [
+                //     {
+                //         name: "A",
+                //         price: 0,
+                //         promotion:0,
+                //         qualified:0,
+                //     },
+                //     {
+                //         name: "B",
+                //         price: 2,
+                //         promotion:0,
+                //         qualified:0,
+                //     },
+                //     {
+                //         name: "C",
+                //         price: 22,
+                //         promotion:1,
+                //         qualified:0,
+                //     },
+                // ]
+                // setItems(price_list)
+                setItems(res.data);
             }catch(e){
                 console.log(e);
             }
