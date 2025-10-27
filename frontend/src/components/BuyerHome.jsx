@@ -8,7 +8,7 @@ function BuyerHome() {
 
     const [memberShipStatus, setMemberShipStatus] = useState("No");
 
-    let total = 0;
+
 
     const handleCount = (itemName, operator ) => {
         setCartItems(items => items.map(item=>{
@@ -27,19 +27,29 @@ function BuyerHome() {
         }));
     }
 
+    const handleTotal = () =>{
+        let total = 0;
+        cartItems.forEach(item =>{
+            total += item.price * item.count;
+        })
+        return total;
+    }
+
     const handleCheckout = async (e) =>{
         e.preventDefault();
 
         try {
-            const res = await axios.post("http://localhost:8082/item/total", {
-                cartItems
-            });
+            // const res = await axios.post("http://localhost:8082/item/total", {
+            //     cartItems
+            // });
+            //
+            // const data = await res.data;
+            // let total = data.total;
 
-            const data = await res.data;
-            total = data.total;
+            const data = handleTotal();
 
             if(data){
-                alert(`Total is: ${total}`)
+                alert(`Total is: ${data}`)
             }else {
                 alert("Error");
             }
@@ -54,7 +64,7 @@ function BuyerHome() {
             const user = localStorage.getItem("username");
 
             const res = await axios.post("http://localhost:8082/item/buy", {
-                user, total
+                user,
             });
 
             const data = await res.data;
@@ -77,27 +87,31 @@ function BuyerHome() {
                 const price_list = [
                     {
                         name: "A",
-                        price: 0,
+                        price: 10.00,
                         promotion:0,
                         qualified:1,
-                        count: 1,
                     },
                     {
                         name: "B",
-                        price: 2,
+                        price: 8.00,
                         promotion:0,
                         qualified:1,
-                        count:1,
                     },
                     {
                         name: "C",
                         price: 22,
                         promotion:1,
                         qualified:1,
-                        count:1
                     },
                 ]
-                setCartItems(price_list);
+
+                const addItemCount = price_list.map(item =>({
+                    ...item,
+                    count:1
+                }));
+
+                setCartItems(addItemCount);
+
             }catch(e){
                 alert("No products found");
             }
@@ -133,10 +147,11 @@ function BuyerHome() {
                 ))}
 
             </Row>
-            <Form.Group controlId="member">
+            <Row className="justify-content-center">
+            <Form.Group className="w-25" controlId="member">
                 <Form.Label>Member ?:</Form.Label>
 
-                <br/><Form.Check
+                <Form.Check
                     type="radio"
                     label="Yes"
                     name="member"
@@ -154,6 +169,7 @@ function BuyerHome() {
                     onChange={(e) => setMemberShipStatus(e.target.value)}
                 />
             </Form.Group>
+            </Row>
             <Row className="justify-content-center">
                 <Button className="w-25" variant="success" type="submit" onClick={handleCheckout}>
                     Checkout
